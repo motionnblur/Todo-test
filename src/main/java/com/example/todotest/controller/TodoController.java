@@ -25,9 +25,4 @@ public class TodoController {
         todoEntityRepository.save(todoEntity);
         return new ResponseEntity<>("Todo has been created", HttpStatus.CREATED);
     }
-    @GetMapping("/api/hi")
-    private String hi()
-    {
-        return "hi";
-    }
 }

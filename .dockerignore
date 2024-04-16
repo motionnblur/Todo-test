@@ -1,0 +1,7 @@
+.idea
+.mvn
+.git
+.gitignore
+compose.yaml
+Dockerfile
+target
