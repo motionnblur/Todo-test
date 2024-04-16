@@ -13,13 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "TODO_ENTITY")
 public class TodoEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String todoName;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "todoEntity", cascade = CascadeType.ALL)
-    private List<TodoItem> videosEntity;
+    private List<String> todoStrings;
 }
