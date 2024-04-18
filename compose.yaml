@@ -3,31 +3,38 @@ version: "4.2"
 services:
   spring:
     build: .
-    ports:
-      - "8080:8080"
-      - "5005:5005"
     depends_on:
       - postgres
     volumes:
       - .:/App
+    networks:
+      - backend_network
+    container_name: spring
   postgres:
     image: postgres
     restart: always
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1
       - POSTGRES_DB=todoapi
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - backend_network
   haproxy:
     image: haproxy
+    depends_on:
+      - spring
     ports:
-      - "4444:4444"
       - "1905:1905"
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
 
 volumes:
   pgdata:
