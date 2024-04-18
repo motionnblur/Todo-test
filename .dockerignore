@@ -1,5 +1,4 @@
 .idea
-.mvn
 .git
 .gitignore
 compose.yaml
