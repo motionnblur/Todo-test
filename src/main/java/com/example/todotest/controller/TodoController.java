@@ -37,8 +37,10 @@ public class TodoController {
     @GetMapping("/api/get_todo")
     private ResponseEntity<?> getTodo(@RequestParam String todoName){
         try{
-            TodoEntity todoEntity = todoEntityRepository.findByTodoName(todoName);
-            return new ResponseEntity<>(todoEntity, HttpStatus.CREATED);
+            Optional<TodoEntity> todoEntityOptional = Optional.ofNullable(todoEntityRepository.findByTodoName(todoName));
+            if(!todoEntityOptional.isPresent())
+                return new ResponseEntity<>("There is no todo found with that name", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(todoEntityOptional, HttpStatus.FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(todoName+ " Not found", HttpStatus.NOT_FOUND);
         }
