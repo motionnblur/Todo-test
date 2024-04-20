@@ -60,4 +60,21 @@ class TodoEntityRepositoryTest {
         TodoEntity savedTodoEntity = todoEntityRepository.save(todoEntity);
         assertNotNull(savedTodoEntity);
     }
+    @Test
+    void shouldGetTodoFromDatabase() {
+        List<String> todoItems = new ArrayList<>();
+        todoItems.add("item 1");
+        todoItems.add("item 2");
+
+        TodoEntity todoEntity = new TodoEntity();
+        todoEntity.setTodoName("Todo");
+        todoEntity.setTodoStrings(todoItems);
+
+        todoEntityRepository.save(todoEntity);
+
+        String todoNameToFind = "Todo";
+        TodoEntity todoShouldBeFound = todoEntityRepository.findByTodoName(todoNameToFind);
+
+        assertNotNull(todoShouldBeFound);
+    }
 }
