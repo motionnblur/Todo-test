@@ -34,13 +34,26 @@ public class TodoController {
             return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
         }
     }
+    @DeleteMapping("/api/delete_todo")
+    private ResponseEntity<String> deleteTodo(@RequestParam String todoName){
+        try{
+            TodoEntity todoEntityToDelete = todoEntityRepository.findByTodoName(todoName);
+            todoEntityRepository.delete(todoEntityToDelete);
+
+            return new ResponseEntity<>("Todo has been deleted", HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping("/api/get_todo")
     private ResponseEntity<?> getTodo(@RequestParam String todoName){
         try{
-            TodoEntity todoEntity = todoEntityRepository.findByTodoName(todoName);
-            return new ResponseEntity<>(todoEntity, HttpStatus.CREATED);
+            Optional<TodoEntity> todoEntityOptional = Optional.ofNullable(todoEntityRepository.findByTodoName(todoName));
+            if(!todoEntityOptional.isPresent())
+                return new ResponseEntity<>("There is no todo found with that name", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(todoEntityOptional, HttpStatus.FOUND);
         }catch (Exception e){
-            return new ResponseEntity<>(todoName+ " Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Error", HttpStatus.BAD_REQUEST);
         }
     }
 }

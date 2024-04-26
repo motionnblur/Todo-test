@@ -7,12 +7,9 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Data
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "TODO_ENTITY")
 public class TodoEntity {
     @Id
